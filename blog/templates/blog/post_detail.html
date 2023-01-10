@@ -1,0 +1,14 @@
+
+{% extends "blog/padre.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ object.autor }}</a>
+        </div>
+        <h2 class="article-title"> {{ object.titulo }} </h2>
+        <p class="article-content"> {{ object.contenido }} </p>
+        </div>
+    </article>
+{% endblock content %}

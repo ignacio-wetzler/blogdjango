@@ -15,11 +15,13 @@ Including another URLconf
 """
 #from django.contrib import admin
 from django.urls import path
+from .views import VistaDeLista, VistaDelPost, CrearPost
 from . import views
 
-urlpatterns = [
-    path('', views.home, name= "blog-home"),
-    path('about', views.about, name= "blog-about"),
-    
 
+urlpatterns = [
+    path('', VistaDeLista.as_view(), name= "blog-home"),
+    path('about', views.about, name= "blog-about"),
+    path("post/<int:pk>/", VistaDelPost.as_view(), name = "post"),
+    path("post/new/", CrearPost.as_view(), name = "post-form"),
 ]
