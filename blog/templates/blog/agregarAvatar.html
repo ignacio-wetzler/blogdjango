@@ -9,15 +9,14 @@
           <p class="text-secondary">{{ user.email }}</p>
         </div>
       </div>
-      <form method="POST" enctype = "multipart/form-data">
+      <form action = "{% url 'agregarAvatar' %}" method = "Post" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Información de Perfil</legend>
             {{ form_usuario|crispy }}
-            {{ form_perfil|crispy }}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Modificar</button>
+            <button class="btn btn-outline-info" type="submit">Agregar Avatar</button>
         </div>
     </form>>
     </div>

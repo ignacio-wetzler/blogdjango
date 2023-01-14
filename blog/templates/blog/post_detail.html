@@ -1,14 +1,21 @@
 
 {% extends "blog/padre.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
-    <article class="media content-section">
-        <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="#">{{ object.autor }}</a>
-        </div>
-        <h2 class="article-title"> {{ object.titulo }} </h2>
-        <p class="article-content"> {{ object.contenido }} </p>
-        </div>
-    </article>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.author.avatar.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ object.autor }}</a>
+        <small class="text-muted">{{ object.fecha|date:"F d, Y" }}</small>
+        {% if object.autor == user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-modificar' object.id %}">Modificar</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Eliminar</a>
+          </div>
+        {% endif %}
+      </div>
+      <h2 class="article-title">{{ object.titulo }}</h2>
+      <p class="article-content">{{ object.contenido }}</p>
+    </div>
+  </article>
 {% endblock content %}

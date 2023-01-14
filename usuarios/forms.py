@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UsernameField
-from .models import Profile
+from .models import Profile, Avatar
 
 class FormularioAlta(UserCreationForm):
-    username = UsernameField(label='Usuario')
+    username = UsernameField(label='User')
     #password1 = forms.CharField(label="Costraseña")
     #email = forms.EmailField(label='e-mail')
 
@@ -21,5 +21,8 @@ class FormModificacionUsuario(forms.ModelForm):
 
 class FormModificacionPerfil(forms.ModelForm):
     class Meta:
-        model = Profile
-        fields = ["image"]
+        model = Avatar
+        fields = ["imagen"]
+
+class AvatarForm(UserCreationForm, forms.Form,):
+    imagen = forms.ImageField(label="imagen")        

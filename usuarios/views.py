@@ -5,10 +5,39 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import FormularioAlta, FormModificacionUsuario, FormModificacionPerfil
-
+from .forms import FormularioAlta, FormModificacionUsuario, FormModificacionPerfil, AvatarForm
+from .models import Profile, Avatar
 
 # Create your views here.
+
+def ObtenerAvatar(request):
+    lista = Avatar.objects.filter(user=request.user)
+    
+    if len(lista) != 0:
+        avatar = lista[0].imagen.url
+    else:
+        avatar = "/media/avatars/avatarpordefecto.png"
+    
+    return avatar
+
+
+def agregarAvatar(request):
+    if request.method=="POST":
+        form=AvatarForm(request.POST, request.FILES)
+        if form.is_valid():
+            avatar=Avatar(user=request.user, imagen=request.FILES["imagen"])
+            avatarViejo=Avatar.objects.filter(user=request.user)
+            if len(avatarViejo)>0:
+                avatarViejo[0].delete()
+            avatar.save()
+            return render(request, "blog/agregarAvatar.html", {"mensaje":f"Avatar agregado correctamente"})
+        else:
+            return render(request, "blog/agregarAvatar.html", {"form": form, "usuario": request.user, "mensaje":"Error al agregar el avatar"})
+    else:
+        form=AvatarForm()
+        return render(request, "blog/agregarAvatar.html", {"form": form, "usuario": request.user})
+
+
 
 def alta_usuario(request):
     if request.method == "POST":
@@ -31,11 +60,11 @@ def alta_usuario(request):
 def perfil(request):
     if request.method == "POST":
         form_usuario = FormModificacionUsuario(request.POST, instance = request.user)
-        form_perfil = FormModificacionPerfil(request.POST, request.FILES, instance = request.user.profile)
-        
+        form_perfil = AvatarForm(request.POST, request.FILES)
+
         if form_usuario.is_valid() and form_perfil.is_valid():
             form_usuario.save()
-            form_perfil.save ()
+            form_perfil.save()
             messages.success(request, f"Tu cuenta ha sido modficada exitosamente!")
             return redirect("perfil")
         else:
@@ -44,9 +73,9 @@ def perfil(request):
 
     else:
         form_usuario = FormModificacionUsuario(instance = request.user)
-        form_perfil = FormModificacionPerfil(instance = request.user.profile) 
+        form_perfil = AvatarForm()
     
-    context = { "form_usuario": form_usuario, "form_perfil": form_perfil}
+    context = { "form_usuario": form_usuario, "form_perfil": form_perfil, "avatar": ObtenerAvatar(request)}
 
 
     return render(request, fr"blog/perfil.html", context)
