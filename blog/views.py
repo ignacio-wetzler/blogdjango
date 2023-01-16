@@ -2,17 +2,24 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 from .models import Post
+from usuarios.views import ObtenerAvatar
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from usuarios.models import Avatar
 
 
 # Create your views here.
 
 def home(request):
+    
     context = {"posts": Post.objects.all()}
     return render(request, "blog/home.html", context)
 
 def about(request):
-    return render(request, "blog/about.html", {"titulo": "Sobre Mi!!"})
+    with open(fr"media\static\about.txt") as f:
+        lines = f.readlines()
+    cita = "Liber - ICAPUT 1"
+    imagen = fr"media\static\17_saint_augustin.jpg"
+    return render(request, "blog/about.html", {"titulo": "Sobre Mi!!", "url": lines, "cita": cita, "avatar": imagen })
 
 class VistaDeLista(ListView):
     model = Post

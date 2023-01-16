@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content-section">
       <div class="media">
-        <img class="rounded-circle account-img" src="{{ avatar }}">
+        <img class="rounded-circle account-img" display ="foto" src="{{ user.avatar.imagen.url }}">
         <div class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
@@ -12,12 +12,12 @@
       <form action = "{% url 'agregarAvatar' %}" method = "Post" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Información de Perfil</legend>
-            {{ form_usuario|crispy }}
+            <legend class="border-bottom mb-4">Modificar Avatar</legend>
+            {{ form|crispy  }}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Agregar Avatar</button>
+            <button class="btn btn-outline-info" type="submit">Modificar Avatar</button>
         </div>
-    </form>>
+    </form>
     </div>
 {% endblock content %}

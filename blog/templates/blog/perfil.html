@@ -3,7 +3,10 @@
 {% block content %}
     <div class="content-section">
       <div class="media">
-        <img class="rounded-circle account-img" src="{{ avatar }}">
+        <div class = "content_img" href = "{% url 'agregarAvatar' %}">
+          <img class="rounded-circle account-img" src="{{ avatar }}" >
+          <div> Modificar Foto de Perfil </div>
+        </div>
         <div class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
@@ -19,6 +22,6 @@
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Modificar</button>
         </div>
-    </form>>
+    </form>
     </div>
 {% endblock content %}

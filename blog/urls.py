@@ -20,7 +20,7 @@ from . import views
 
 
 urlpatterns = [
-    path("", VistaDeLista.as_view(), name= "blog-home"),
+    path("", views.home , name= "blog-home"),
     path("about", views.about, name= "blog-about"),
     path("post/<int:pk>/", PostDetailView.as_view(), name= "post-detail"),
     path("post/<int:pk>/update/", ModificarPost.as_view(), name = "post-modificar"),

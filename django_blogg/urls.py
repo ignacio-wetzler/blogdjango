@@ -24,9 +24,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("blog.urls")),
+    path("usuarios/mostrarAvatar", user_views.mostrarAvatar, name= "avatar"),
     path("usuarios/alta/", user_views.alta_usuario, name = "alta"),
     path("usuarios/login", auth_views.LoginView.as_view(template_name = fr"blog/login.html"), name = "login"),
     path("usuarios/logout", auth_views.LogoutView.as_view(template_name = fr"blog/logout.html"), name = "logout"),
     path("usuarios/perfil", user_views.perfil, name = "perfil"),
     path("usuarios/agregarAvatar/", user_views.agregarAvatar, name = "agregarAvatar")
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+
