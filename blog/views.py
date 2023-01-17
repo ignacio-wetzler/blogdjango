@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
-from .models import Post
+from .models import Post, Comentario
+from .forms import FormularioComentario
 from usuarios.views import ObtenerAvatar
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from usuarios.models import Avatar
-
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your views here.
 
@@ -64,4 +66,34 @@ class ModificarPost(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+class CrearComentario(LoginRequiredMixin, CreateView):
+    model =  Comentario
+    fields = ["contenido"]
+    
+    def form_valid(self, form):
+        form.instance.autor = self.request.user
+        return super().form_valid(form)
+
+
+def comentario(request, pk):
+    post = Post.objects.get(id=pk)
+    titulo = post.titulo
+    contenido = post.contenido
+    fecha = post.fecha
+    autor = post.autor
+    post_coments = post.comentario_set.all()
+    comentaristas = post.comentaristas.all()
+
+    if request.method == "POST":
+        form_comentario = FormularioComentario(request.POST, instance = post)
+        if form_comentario.is_valid():
+             form_comentario.save()
+             messages.success(request, f"Tu comentario ha sido gruardado exitosamente!")
+        else:
+            messages.success(request, f"Error en formulario!")
+    else:
+        form_comentario = FormularioComentario()
+        
+    context = {'post': post, 'titulo': titulo, 'contenido' : contenido, 'fecha' : fecha, 'autor' : autor,  'post_coments': post_coments,'comentaristas': comentaristas, "form" : form_comentario  }
+    return render(request, fr'blog/comentario_form.html', context)
 

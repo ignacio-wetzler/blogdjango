@@ -9,9 +9,22 @@ class Post(models.Model):
     contenido = models.TextField()
     fecha = models.DateTimeField(default=timezone.now)
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    comentaristas = models.ManyToManyField(Usuario, related_name= "comentaristas", blank = True )
 
     def __str__(self):
         return self.titulo
 
     def get_absolute_url(self):
         return reverse("post-detail", kwargs = {"pk": self.pk})
+
+class Comentario(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    contenido = models.TextField()
+    fecha = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ["-fecha"]
+    
+    def __str__(self):
+        return self.contenido[0:50]
