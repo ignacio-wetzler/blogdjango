@@ -8,8 +8,7 @@ class Post(models.Model):
     titulo = models.CharField(max_length= 30)
     contenido = models.TextField()
     fecha = models.DateTimeField(default=timezone.now)
-    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    comentaristas = models.ManyToManyField(Usuario, related_name= "comentaristas", blank = True )
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -20,11 +19,14 @@ class Post(models.Model):
 class Comentario(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    contenido = models.TextField()
-    fecha = models.DateTimeField(default=timezone.now)
+    contc = models.TextField()
+    fechc = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        ordering = ["-fecha"]
+        ordering = ["-fechc"]
     
     def __str__(self):
         return self.contenido[0:50]
+
+    def get_absolute_url(self):
+        return reverse("post-detail", kwargs = {"pk": self.post.pk})

@@ -4,9 +4,11 @@
         <article class="media content-section">
             <div class="media-body">
             <div class="article-metadata">
-                <img class="rounded-circle account-img" src="{{ post.autor.avatar.imagen.url }}">
-                <a class="mr-2" href="#"> {{post.autor}} </a>
+                <img class="rounded-circle account-img" src="{{ post.user.avatar.imagen.url }}">
+                <a class="mr-2" href="#"> {{post.user}} </a>
+               
             </div>
+            <h6><a class="article-title" href= "{% url 'post-detail' post.id %}"> {{post.fecha}}</a></h6>
             <h2><a class="article-title" href= "{% url 'post-detail' post.id %}">{{ post.titulo }}</a></h2>
             <p class="article-content">{{ post.contenido }}</p>
             </div>
