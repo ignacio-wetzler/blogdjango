@@ -45,8 +45,6 @@ class PostDeleteView(LoginRequiredMixin,  UserPassesTestMixin, DeleteView):
     model = Post
     success_url = "/"
 
-
-
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.user:
@@ -74,7 +72,6 @@ class CrearComentario(LoginRequiredMixin, CreateView, Post):
         context["contenido"] = post.contenido
         context["fecha"] = post.fecha
         context["user"] = post.user
-        context["extra"] = self.kwargs["pk"]
         return context
 
     def form_valid(self, form):
@@ -107,7 +104,17 @@ class ModificarComentario(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
     
     def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.user:
+        comentario = self.get_object()
+        if self.request.user == comentario.user:
+            return True
+        return False
+
+class ComentarioDeleteView(LoginRequiredMixin,  UserPassesTestMixin, DeleteView):
+    model = Comentario
+    success_url = "/"
+
+    def test_func(self):
+        comentario = self.get_object()
+        if self.request.user == comentario.user:
             return True
         return False

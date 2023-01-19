@@ -15,7 +15,7 @@ Including another URLconf
 """
 #from django.contrib import admin
 from django.urls import path
-from .views import VistaDeLista, PostDetailView, CrearPost, ModificarPost, PostDeleteView, CrearComentario
+from .views import VistaDeLista, PostDetailView, CrearPost, ModificarPost, PostDeleteView, CrearComentario, ComentarioDeleteView, ModificarComentario
 from . import views
 
 
@@ -25,8 +25,9 @@ urlpatterns = [
     path("post/<int:pk>/", PostDetailView.as_view(), name= "post-detail"),
     path("post/<int:pk>/update/", ModificarPost.as_view(), name = "post-modificar"),
     path("post/<int:pk>/delete/", PostDeleteView.as_view(), name = "post-delete"),
-    #path("post/<int:pk>/coment/", views.comentario, name = "post-coment"),
     path("post/new/", CrearPost.as_view(), name = "post-form"),
-    path("post/<int:pk>/coment/", CrearComentario.as_view(), name = "post-coment"),
+    path("post/<int:pk>/comentario/create", CrearComentario.as_view(), name = "post-coment"),
+    path("post/<int:pk>/comentario/delete", ComentarioDeleteView.as_view(), name = "comentario-delete"),
+    path("post/<int:pk>/comentario/modifc", ModificarComentario.as_view(), name = "comentario-modifc"),
     
 ]
