@@ -3,9 +3,11 @@
 {% block content %}
     <div class="content-section">
       <div class="media">
-        <div class = "content_img" href = "{% url 'agregarAvatar' %}">
+        <div class = "content_img"> 
           <img class="rounded-circle account-img" src="{{ avatar }}" >
-          <div> Modificar Foto de Perfil </div>
+          <div> 
+            <a class="nav-link" href="{% url 'agregarAvatar' %}"> Modificar Avatar</a> 
+          </div>
         </div>
         <div class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
